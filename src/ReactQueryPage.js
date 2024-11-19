@@ -19,11 +19,14 @@ const ReactQueryPage = () => {
     queryKey: ["posts"], // 데이터 요청에 대한 고유한 식별자
     queryFn: fetchPost, // 내가 호출하고 싶은 api ( 데이터를 가져올 함수)
     retry: 1,
+    staleTime: 60000, // 데이터를 새로 요청하지 않고 캐시된 데이터를 계속 사용할지를 정의하는 것. // 자주 호출할 필요가 없는 api
+
+    // 캐쉬 수명조절... 캐쉬도 메모리공간을 차지하기 때문에 주기적으로 비워줄 필요가있다.
+    gcTime: 10000, // 설정하지 않으면 기본값이 5분 // staleTime < gcTime
     select: (data) => {
       return data.data;
     },
-    // 캐쉬 수명조절... 캐쉬도 메모리공간을 차지하기 때문에 주기적으로 비워줄 필요가있다.
-    gcTime: 5000, // 설정하지 않으면 기본값이 5분.
+    refetchOnWindowFocus: true,
   });
   console.log("ddd", data, isLoading);
   console.log("error", isError, error);
